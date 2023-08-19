@@ -18,6 +18,8 @@ namespace HotelListing.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),//Vedio it true
                     ShortName = table.Column<string>(type: "nvarchar(max)", nullable: false)//Vedio it true
+                    //Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    //ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,6 +34,8 @@ namespace HotelListing.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),//Vedio it true
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),//Vedio it true
+                    //Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    //Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
