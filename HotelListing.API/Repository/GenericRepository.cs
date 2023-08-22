@@ -7,6 +7,7 @@ namespace HotelListing.API.Repository
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly HotelListingDbContext _context;
+
         public GenericRepository(HotelListingDbContext context)
         {
             this._context = context;
