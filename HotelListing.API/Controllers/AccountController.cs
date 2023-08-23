@@ -43,7 +43,7 @@ namespace HotelListing.API.Controllers
         public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
         {
             var isValidUser = await _authManager.Login(loginDto);
-            if(isValidUser)
+            if(!isValidUser)
             {
                 return Unauthorized();
             }
