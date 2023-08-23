@@ -21,8 +21,24 @@ namespace HotelListing.API.Repository
             bool isValidUser = false;
             try
             {
-                var user = await _userManager.FindByEmailAsync(loginDto.Email);
+                //If the user object comes back as null, this will lead to a null exception in the CheckPasswordAsync()
+                //method.We can refactor like this:
+                #region Fix the CheckPasswordAsyn() issue.
+                //var user = await _userManager.FindByEmailAsync(loginDto.Email);
+                //isValidUser = await _userManager.CheckPasswordAsync(user, loginDto.Pasword);
+                #endregion
+
+                var user=await _userManager.FindByEmailAsync(loginDto.Email);
+                if (user == null)
+                {
+                    return default;
+                }
+
                 isValidUser = await _userManager.CheckPasswordAsync(user, loginDto.Pasword);
+                if (!isValidUser)
+                {
+                    return default;
+                }
             }
             catch (Exception)
             {
