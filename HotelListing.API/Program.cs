@@ -92,7 +92,10 @@ app.UseSerilogRequestLogging();//Log the error into log file in log folder.
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");//CORS is configured here.
 
+//Here we need to follow sequence. First Authentication and Authorization
+app.UseAuthentication();//For Authentication
 app.UseAuthorization();
+
 
 app.MapControllers();
 

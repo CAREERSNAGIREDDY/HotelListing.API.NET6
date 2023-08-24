@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HotelListing.API.Data;
 using HotelListing.API.Models.Country;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
-using System.Drawing;
 using HotelListing.API.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelListing.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class CountriesController : ControllerBase
     {
         #region Before Refactor Controller to Use Repository
@@ -247,6 +242,7 @@ namespace HotelListing.API.Controllers
 
         // PUT: Countries/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutCountry(int id, UpdateCountryDto updateCountryDto)
         {
             if (id != updateCountryDto.Id)
@@ -283,6 +279,7 @@ namespace HotelListing.API.Controllers
 
         // POST: Countries
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Country>> PostCountry(CreateCountryDto createCountryDto)
         {
             #region After Automapper Start
@@ -294,6 +291,7 @@ namespace HotelListing.API.Controllers
 
         // DELETE: Countries/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteCountry(int id)
         {
             var country = await _countriesRepository.GetAsync(id);
