@@ -7,7 +7,11 @@ namespace HotelListing.API.Contracts
     {
         Task<IEnumerable<IdentityError>> Register(ApiUserDto userDto);
 
-        Task<bool> Login(LoginDto loginDto);
+        //after implement GenerateToken, we are kept comment below line.
+        //Task<bool> Login(LoginDto loginDto);
+
+        //For JWT Authentication
+        Task<AuthResponseDto> Login(LoginDto loginDto);
     }
 }
 
