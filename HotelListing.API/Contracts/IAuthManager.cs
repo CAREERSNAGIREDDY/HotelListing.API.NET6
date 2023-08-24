@@ -10,8 +10,11 @@ namespace HotelListing.API.Contracts
         //after implement GenerateToken, we are kept comment below line.
         //Task<bool> Login(LoginDto loginDto);
 
-        //For JWT Authentication
+        //For JWT Authentication and Token Generation
         Task<AuthResponseDto> Login(LoginDto loginDto);
+
+        Task<string> CreateRefreshToken();
+        Task<AuthResponseDto> VerifyRefreshToken(AuthResponseDto request);
     }
 }
 

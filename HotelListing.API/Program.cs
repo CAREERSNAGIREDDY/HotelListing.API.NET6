@@ -22,7 +22,9 @@ builder.Services.AddDbContext<HotelListingDbContext>(options =>{
 //Setup User Identity Start
 builder.Services.AddIdentityCore<ApiUser>().
     AddRoles<IdentityRole>().
-    AddEntityFrameworkStores<HotelListingDbContext>();
+    AddTokenProvider<DataProtectorTokenProvider<ApiUser>>("HotelListingApi").//Here we need to verify once again 59 video
+    AddEntityFrameworkStores<HotelListingDbContext>().
+    AddDefaultTokenProviders();
 //Setup User Identity End
 
 builder.Services.AddControllers();
