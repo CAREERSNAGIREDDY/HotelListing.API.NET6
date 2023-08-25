@@ -81,7 +81,8 @@ namespace HotelListing.API.Repository
             return new AuthResponseDto
             {
                 Token = token,
-                UserId = _user.Id
+                UserId = _user.Id,
+                RefreshToken=await CreateRefreshToken()//It has fixed in 59th Video
             };
         }
         public async Task<IEnumerable<IdentityError>> Register(ApiUserDto userDto)
