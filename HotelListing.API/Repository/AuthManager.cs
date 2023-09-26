@@ -16,17 +16,15 @@ namespace HotelListing.API.Repository
         private readonly UserManager<ApiUser> _userManager;
         private readonly IConfiguration _configuration;
         private ApiUser _user;
-        private readonly Logger<AuthManager> _logger;
 
         private const string _loginProvider = "HotelListingApi";
         private const string _refreshtoken = "RefreshToken";
 
-        public AuthManager(IMapper mapper, UserManager<ApiUser> userManager, IConfiguration configuration, Logger<AuthManager> logger)
+        public AuthManager(IMapper mapper, UserManager<ApiUser> userManager, IConfiguration configuration)
         {
             this._mapper = mapper;
             this._userManager = userManager;
             this._configuration = configuration;
-            this._logger = logger;
         }
 
         public async Task<string> CreateRefreshToken()
@@ -72,23 +70,19 @@ namespace HotelListing.API.Repository
 
         public async Task<AuthResponseDto> Login(LoginDto loginDto)
         {
-            _logger.LogInformation($"Looking for user with email {loginDto.Email}");
             _user = await _userManager.FindByEmailAsync(loginDto.Email);
             bool isValidUser = await _userManager.CheckPasswordAsync(_user, loginDto.Pasword);
             if (_user == null || isValidUser == false)
             {
-                _logger.LogWarning($"User with email {loginDto.Email} was not found");
                 return null;
             }
 
             var token = await GenerateToken();
-            _logger.LogInformation($"Token generation user with email {loginDto.Email} | Token : {token}");
-
             return new AuthResponseDto
             {
                 Token = token,
                 UserId = _user.Id,
-                RefreshToken=await CreateRefreshToken()//It has fixed in 59th Video and 62nd vedio also fixed the issue. 
+                RefreshToken=await CreateRefreshToken()//It has fixed in 59th Video
             };
         }
         public async Task<IEnumerable<IdentityError>> Register(ApiUserDto userDto)
