@@ -5,7 +5,9 @@ using HotelListing.API.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Packaging.Signing;
 using Serilog;
 using System.Text;
 
@@ -14,7 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 //Connection string Start
 var connectionString = builder.Configuration.GetConnectionString("HotelListingDbConnectionString");
-builder.Services.AddDbContext<HotelListingDbContext>(options =>{
+builder.Services.AddDbContext<HotelListingDbContext>(options =>
+{
     options.UseSqlServer(connectionString);
 });
 //Connection string End
@@ -35,11 +38,7 @@ builder.Services.AddSwaggerGen();
 //Cors Start
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        b => b.AllowAnyHeader()
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        );
+    options.AddPolicy("AllowAll", b => b.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 });
 //Cors End
 
@@ -51,7 +50,7 @@ builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().ReadFrom.Configuration
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 //Automapper End
 
-builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 builder.Services.AddScoped<IHotelsRepository, HotelsRepository>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
@@ -59,7 +58,7 @@ builder.Services.AddScoped<IAuthManager, AuthManager>();
 //JWT Token configuration Start
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme=JwtBearerDefaults.AuthenticationScheme; //"Bearer"
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; //"Bearer"
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
